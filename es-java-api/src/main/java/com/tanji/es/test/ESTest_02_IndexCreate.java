@@ -1,10 +1,8 @@
-package com.qingcai.es.test;
+package com.tanji.es.test;
 
-import org.apache.http.HttpHost;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
@@ -14,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 /**
+ * 索引 - 创建
  * @author shenjh
  * @version 1.0
  * @since 2024-09-27 17:16
@@ -27,15 +26,14 @@ public class ESTest_02_IndexCreate {
 
     public static void main(String[] args) {
         // 创建 ES 客户端
-        HttpHost httpHost = new HttpHost("localhost", 9200, "http");
-        RestClientBuilder restClientBuilder = RestClient.builder(httpHost);
+        RestClientBuilder restClientBuilder = TestUtils.buildRestClientBuilder();
         // 自动关闭 ES 客户端
         try (RestHighLevelClient restHighLevelClient = new RestHighLevelClient(restClientBuilder)) {
             // 创建索引
             CreateIndexRequest createIndexRequest = new CreateIndexRequest("user");
             CreateIndexResponse createIndexResponse = restHighLevelClient.indices().create(createIndexRequest, RequestOptions.DEFAULT);
 
-            // 响应状态
+            // 响应信息
             boolean acknowledged = createIndexResponse.isAcknowledged();
             logger.info("log4j:::" + acknowledged);
             log.debug("slf4j:::" + acknowledged);

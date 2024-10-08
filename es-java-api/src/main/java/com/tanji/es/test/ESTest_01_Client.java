@@ -1,7 +1,5 @@
-package com.qingcai.es.test;
+package com.tanji.es.test;
 
-import org.apache.http.HttpHost;
-import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
 
@@ -16,8 +14,7 @@ public class ESTest_01_Client {
 
     public static void main(String[] args) {
         // 创建 ES 客户端
-        HttpHost httpHost = new HttpHost("localhost", 9200, "http");
-        RestClientBuilder restClientBuilder = RestClient.builder(httpHost);
+        RestClientBuilder restClientBuilder = TestUtils.buildRestClientBuilder();
         RestHighLevelClient restHighLevelClient = null;
         try {
             restHighLevelClient = new RestHighLevelClient(restClientBuilder);

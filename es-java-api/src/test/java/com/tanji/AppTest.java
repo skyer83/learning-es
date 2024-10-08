@@ -1,4 +1,4 @@
-package com.qingcai;
+package com.tanji;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
