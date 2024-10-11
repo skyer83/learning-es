@@ -167,11 +167,7 @@ http.cors.allow-origin: "*"
 
 ![image-20241008181515794](Window%E3%80%81Linux%E5%8D%95%E6%9C%BA%E3%80%81%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E.assets/image-20241008181515794.png)
 
-### 可视化工具
 
-参见 [简单好用的ElasticSearch可视化工具：es-client和Head](https://developer.aliyun.com/article/1297184) 说明，es-client 插件下载地址：https://es-client.esion.xyz/download/，推荐 [安装包下载](https://static.esion.xyz/#/%E6%8F%92%E4%BB%B6/es-client)
-
-![image-20241008183526661](Window%E3%80%81Linux%E5%8D%95%E6%9C%BA%E3%80%81%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E.assets/image-20241008183526661.png)
 
 # Linux 单机部署
 
@@ -600,3 +596,96 @@ systemctl disable firewalld.service
 浏览器访问地址：http://192.168.56.121:9200/_cat/nodes 查看节点信息
 
 ![image-20241009164647685](Window%E3%80%81Linux%E5%8D%95%E6%9C%BA%E3%80%81%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E.assets/image-20241009164647685.png)
+
+# 可视化工具
+
+参见 [简单好用的ElasticSearch可视化工具](https://developer.aliyun.com/article/1297184) 介绍
+
+## elasticsearch-head
+
+谷歌浏览器插件：elasticsearch-head（[下载](https://github.com/skyer83/learning-es/blob/main/plugin/elasticsearch-head-chrome-plugin.rar))
+
+![image-20241009175028748](Window%E3%80%81Linux%E5%8D%95%E6%9C%BA%E3%80%81%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E.assets/image-20241009175028748.png)
+
+![image-20241009175354881](Window%E3%80%81Linux%E5%8D%95%E6%9C%BA%E3%80%81%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E.assets/image-20241009175354881.png)
+
+
+
+
+
+## es-client
+
+插件下载地址：https://es-client.esion.xyz/download/，推荐 [安装包下载](https://static.esion.xyz/#/%E6%8F%92%E4%BB%B6/es-client)
+
+![image-20241008183526661](Window%E3%80%81Linux%E5%8D%95%E6%9C%BA%E3%80%81%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E.assets/image-20241008183526661.png)
+
+##  Kibana
+
+下载地址：https://artifacts.elastic.co/downloads/kibana/kibana-7.8.0-windows-x86_64.zip
+
+1、解压缩下载的 zip 文件
+
+![image-20241010214000252](Window%E3%80%81Linux%E5%8D%95%E6%9C%BA%E3%80%81%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E.assets/image-20241010214000252.png)
+
+2、修改 config/kibana.yml 文件 
+
+```yml
+# 默认端口
+server.port: 5601
+# ES 服务器的地址，集群时，用逗号分隔开，如：["http://localhost:9200","http://localhost:9201","http://localhost:9202"]
+elasticsearch.hosts: ["http://localhost:9200"]
+# 索引名
+kibana.index: ".kibana"
+# 支持中文
+i18n.locale: "zh-CN"
+```
+
+3、Windows环境下执行 bin/kibana.bat 文件
+
+![image-20241010214618412](Window%E3%80%81Linux%E5%8D%95%E6%9C%BA%E3%80%81%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E.assets/image-20241010214618412.png)
+
+![image-20241010214743301](Window%E3%80%81Linux%E5%8D%95%E6%9C%BA%E3%80%81%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E.assets/image-20241010214743301.png)
+
+4、通过浏览器访问：http://localhost:5601
+
+![image-20241010215047571](Window%E3%80%81Linux%E5%8D%95%E6%9C%BA%E3%80%81%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E.assets/image-20241010215047571.png)
+
+![image-20241010215116872](Window%E3%80%81Linux%E5%8D%95%E6%9C%BA%E3%80%81%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E.assets/image-20241010215116872.png)
+
+# 问题
+
+## master not discovered or elected yet
+
+参见：https://blog.csdn.net/wang_peng/article/details/117294875
+
+一个单机三个节点的集群, 如果一次性全部停掉,再启动master节点时,就会启动不成功，报：
+
+> master not discovered or elected yet, an election requires at least X nodes with ids from [XXXXX]
+
+主要有两点原因,
+
+1) 如果ES集群是第一次启动时,已经加入集群的几点信息保存在data目录下，以供下次启动使用，这样也就是说cluster.initial_master_nodes就不在起作用了
+
+2) 每个ES集群都维护一个选举配置集合(Voting Configurations),这个选举集合由可以选举为主节点的master类型节点组成.它除了提供选举功能，还决定者集群的状态，当选举配置集合中超过一半的节点存活时，集群才提供服务（也就是过半原则，通常集群解决脑裂问题都是采用这种方式）.也就是说3个节点,挺掉一个,还有两个,属于过半了,不会有什么问题.但如果一下3个全停了,那就完犊子了.三个服务都彻底不能用了
+
+但如果不愿意启动多个节点，也就是要将多节点集群降级，也就是如何减少集群中的节点数呢？发现很多推荐做法是清空data目录，确实这样相当于重新启动而创建一个全新的集群，可以解决问题，但是结果是导致所有的数据丢失.所以只能一个一个的停,每停一个节点,向主节点的voting_config_exclusions中添加一下要删除节点的ID或者名称
+
+具体操作:
+
+1) 添加排除，也就是从配置集合中删除,可以使用节点Id(node_ids)或者节点名称(node_names)来排除,如果执行失败.加上参数 wait_for_removal=false 试试
+
+用PostMan向主节点Post http://localhost:9201/_cluster/voting_config_exclusions?node_names=node-1002,node-1003
+
+![img](Window%E3%80%81Linux%E5%8D%95%E6%9C%BA%E3%80%81%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E.assets/51bce3cdd8c19cec6b495d7d614cf74f.png)
+
+2) 查看排除列表
+
+用PostMan向主节点Get http://localhost:9201/_cluster/state?filter_path=metadata.cluster_coordination.voting_config_exclusions&pretty
+
+![img](Window%E3%80%81Linux%E5%8D%95%E6%9C%BA%E3%80%81%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E.assets/7a64006034780af7232682dc2f0d591b.png)
+
+3) 然后就可以停掉节点node-1002,node1003
+
+4) 清空列表 用PostMan向主节点 Delete http://localhost:9201/_cluster/voting_config_exclusions
+
+ ![img](Window%E3%80%81Linux%E5%8D%95%E6%9C%BA%E3%80%81%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E.assets/ed33df7c0cb94c0228ac267c4fbd88c9.png)
