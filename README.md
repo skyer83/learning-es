@@ -14,3 +14,13 @@ ES（7.8.0）相关技术学习记录。
 ## Window、Linux单机、集群部署说明
 
 参见：https://github.com/skyer83/learning-es/blob/main/doc/Window%E3%80%81Linux%E5%8D%95%E6%9C%BA%E3%80%81%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E.md
+
+# 分词器说明
+
+参见：https://github.com/skyer83/learning-es/blob/main/doc/%E5%88%86%E8%AF%8D%E5%99%A8.md
+
+# 框架集成
+
+## SpringData
+
+简单集成，参见：https://github.com/skyer83/learning-es/tree/main/es-springdata
