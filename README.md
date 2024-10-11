@@ -1,5 +1,5 @@
-# learning-es
-ES（7.8.0）相关技术学习记录。
+# ES（7.8.0）
+ES（7.8.0）相关技术学习及理解记录。
 
 若表述有误，欢迎指正，联系邮箱：skyer_tech@163.com
 
@@ -24,3 +24,7 @@ ES（7.8.0）相关技术学习记录。
 ### SpringData
 
 简单集成，参见：https://github.com/skyer83/learning-es/tree/main/es-springdata
+
+## ES优化
+
+参见：https://github.com/skyer83/learning-es/blob/main/doc/Elasticsearch%E4%BC%98%E5%8C%96.md
